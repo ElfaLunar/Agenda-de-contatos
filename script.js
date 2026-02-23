@@ -1,95 +1,79 @@
-// Função para obter os contatos armazenados no localStorage
-function getContatos() {
-    const contatos = localStorage.getItem('contatos');
-    return contatos ? JSON.parse(contatos) : [];
-}
+let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
+let editIndex = -1;
 
-// Função para atualizar a tabela de contatos
-function atualizarTabela() {
-    const contatos = getContatos();
-    const listaContatos = document.getElementById('contatos-lista');
-    listaContatos.innerHTML = '';
-    contatos.forEach((contato, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${contato.nome}</td>
-            <td>${contato.email}</td>
-            <td>${contato.telefone}</td>
-            <td>
-                <button class="action-btn" onclick="editarContato(${index})">Editar</button>
-                <button class="delete-btn" onclick="excluirContato(${index})">Excluir</button>
-            </td>
+function atualizarTabela(lista = contatos) {
+    const tabela = document.getElementById("tabelaContatos");
+    tabela.innerHTML = "";
+
+    lista.forEach((contato, index) => {
+        tabela.innerHTML += `
+            <tr>
+                <td>${contato.nome}</td>
+                <td>${contato.email}</td>
+                <td>${contato.telefone}</td>
+                <td>
+                    <button class="editar" onclick="editarContato(${index})">✏ Editar</button>
+                    <button class="excluir" onclick="excluirContato(${index})">🗑 Excluir</button>
+                </td>
+            </tr>
         `;
-        listaContatos.appendChild(row);
     });
 
-    // Atualizar o total de contatos
-    document.getElementById('total-contatos').textContent = contatos.length;
+    document.getElementById("totalContatos").innerText = contatos.length;
 }
 
-// Função para cadastrar um novo contato
-function cadastrarContato() {
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const telefone = document.getElementById('telefone').value;
+function salvarContato() {
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const telefone = document.getElementById("telefone").value.trim();
 
-    if (nome && email && telefone) {
-        const contatos = getContatos();
-        contatos.push({ nome, email, telefone });
-        localStorage.setItem('contatos', JSON.stringify(contatos));
+    if (!nome || !email || !telefone) {
+        alert("⚠ Preencha todos os campos!");
+        return;
+    }
 
-        // Limpar os campos após cadastro
-        document.getElementById('nome').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('telefone').value = '';
+    const novoContato = { nome, email, telefone };
 
-        // Atualizar a tabela
-        atualizarTabela();
+    if (editIndex === -1) {
+        contatos.push(novoContato);
     } else {
-        alert('Por favor, preencha todos os campos.');
+        contatos[editIndex] = novoContato;
+        editIndex = -1;
+    }
+
+    localStorage.setItem("contatos", JSON.stringify(contatos));
+    limparCampos();
+    atualizarTabela();
+}
+
+function editarContato(index) {
+    const contato = contatos[index];
+    document.getElementById("nome").value = contato.nome;
+    document.getElementById("email").value = contato.email;
+    document.getElementById("telefone").value = contato.telefone;
+    editIndex = index;
+}
+
+function excluirContato(index) {
+    if (confirm("Deseja excluir este contato?")) {
+        contatos.splice(index, 1);
+        localStorage.setItem("contatos", JSON.stringify(contatos));
+        atualizarTabela();
     }
 }
 
-// Função para excluir um contato
-function excluirContato(index) {
-    const contatos = getContatos();
-    contatos.splice(index, 1);  // Remove o contato pelo índice
-    localStorage.setItem('contatos', JSON.stringify(contatos));
-    atualizarTabela();  // Atualiza a tabela
-}
-
-// Função para editar um contato
-function editarContato(index) {
-    const contatos = getContatos();
-    const contato = contatos[index];
-    document.getElementById('nome').value = contato.nome;
-    document.getElementById('email').value = contato.email;
-    document.getElementById('telefone').value = contato.telefone;
-
-    // Remover o contato original antes de editar
-    excluirContato(index);
-}
-
-// Função para filtrar os contatos pela busca
 function filtrarContatos() {
-    const filtro = document.getElementById('filtro').value.toLowerCase();
-    const contatos = getContatos();
-    const listaContatos = document.getElementById('contatos-lista');
-    listaContatos.innerHTML = '';
-    contatos.filter(contato => contato.nome.toLowerCase().includes(filtro)).forEach((contato, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${contato.nome}</td>
-            <td>${contato.email}</td>
-            <td>${contato.telefone}</td>
-            <td>
-                <button class="action-btn" onclick="editarContato(${index})">Editar</button>
-                <button class="delete-btn" onclick="excluirContato(${index})">Excluir</button>
-            </td>
-        `;
-        listaContatos.appendChild(row);
-    });
+    const filtro = document.getElementById("filtro").value.toLowerCase();
+    const filtrados = contatos.filter(contato =>
+        contato.nome.toLowerCase().includes(filtro)
+    );
+    atualizarTabela(filtrados);
 }
 
-// Atualizar a tabela ao carregar a página
+function limparCampos() {
+    document.getElementById("nome").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("telefone").value = "";
+}
+
 window.onload = atualizarTabela;
