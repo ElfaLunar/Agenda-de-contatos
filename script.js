@@ -1,5 +1,30 @@
-let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
+const storageKey = "agendaContatos";
+let contatos = JSON.parse(localStorage.getItem(storageKey)) || [];
 let editIndex = -1;
+
+function salvarContato() {
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const telefone = document.getElementById("telefone").value.trim();
+
+    if (!nome || !email || !telefone) {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    const contato = { nome, email, telefone };
+
+    if (editIndex === -1) {
+        contatos.push(contato);
+    } else {
+        contatos[editIndex] = contato;
+        editIndex = -1;
+    }
+
+    atualizarStorage();
+    limparCampos();
+    atualizarTabela();
+}
 
 function atualizarTabela(lista = contatos) {
     const tabela = document.getElementById("tabelaContatos");
@@ -12,38 +37,14 @@ function atualizarTabela(lista = contatos) {
                 <td>${contato.email}</td>
                 <td>${contato.telefone}</td>
                 <td>
-                    <button class="editar" onclick="editarContato(${index})">✏ Editar</button>
-                    <button class="excluir" onclick="excluirContato(${index})">🗑 Excluir</button>
+                    <button class="editar" onclick="editarContato(${index})">Editar</button>
+                    <button class="excluir" onclick="excluirContato(${index})">Excluir</button>
                 </td>
             </tr>
         `;
     });
 
     document.getElementById("totalContatos").innerText = contatos.length;
-}
-
-function salvarContato() {
-    const nome = document.getElementById("nome").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const telefone = document.getElementById("telefone").value.trim();
-
-    if (!nome || !email || !telefone) {
-        alert("⚠ Preencha todos os campos!");
-        return;
-    }
-
-    const novoContato = { nome, email, telefone };
-
-    if (editIndex === -1) {
-        contatos.push(novoContato);
-    } else {
-        contatos[editIndex] = novoContato;
-        editIndex = -1;
-    }
-
-    localStorage.setItem("contatos", JSON.stringify(contatos));
-    limparCampos();
-    atualizarTabela();
 }
 
 function editarContato(index) {
@@ -57,17 +58,21 @@ function editarContato(index) {
 function excluirContato(index) {
     if (confirm("Deseja excluir este contato?")) {
         contatos.splice(index, 1);
-        localStorage.setItem("contatos", JSON.stringify(contatos));
+        atualizarStorage();
         atualizarTabela();
     }
 }
 
 function filtrarContatos() {
-    const filtro = document.getElementById("filtro").value.toLowerCase();
-    const filtrados = contatos.filter(contato =>
-        contato.nome.toLowerCase().includes(filtro)
+    const termo = document.getElementById("filtro").value.toLowerCase();
+    const filtrados = contatos.filter(c =>
+        c.nome.toLowerCase().includes(termo)
     );
     atualizarTabela(filtrados);
+}
+
+function atualizarStorage() {
+    localStorage.setItem(storageKey, JSON.stringify(contatos));
 }
 
 function limparCampos() {
