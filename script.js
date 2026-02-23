@@ -1,5 +1,4 @@
-const storageKey = "agendaContatos";
-let contatos = JSON.parse(localStorage.getItem(storageKey)) || [];
+let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
 let editIndex = -1;
 
 function salvarContato() {
@@ -72,7 +71,7 @@ function filtrarContatos() {
 }
 
 function atualizarStorage() {
-    localStorage.setItem(storageKey, JSON.stringify(contatos));
+    localStorage.setItem("contatos", JSON.stringify(contatos));
 }
 
 function limparCampos() {
