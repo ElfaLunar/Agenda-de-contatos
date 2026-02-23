@@ -1,11 +1,86 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #00c9c8, #008b8b);
+    display: flex;
+    justify-content: center;
+    padding: 40px;
 }
 
-input, button {
-    margin: 5px;
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+h1 {
+    text-align: center;
+    color: #008b8b;
+    margin-bottom: 25px;
+}
+
+input {
     padding: 10px;
+    margin: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #00c9c8;
+    outline: none;
+    box-shadow: 0 0 5px #00c9c8;
+}
+
+.formulario {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filtro {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-salvar {
+    background-color: #00c9c8;
+    color: white;
+}
+
+.btn-salvar:hover {
+    background-color: #008b8b;
+    transform: scale(1.05);
+}
+
+.editar {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.editar:hover {
+    background-color: #117a8b;
+}
+
+.excluir {
+    background-color: #dc3545;
+    color: white;
+}
+
+.excluir:hover {
+    background-color: #a71d2a;
 }
 
 table {
@@ -14,22 +89,30 @@ table {
     margin-top: 20px;
 }
 
-table, th, td {
-    border: 1px solid black;
+th {
+    background-color: #00c9c8;
+    color: white;
+    padding: 12px;
 }
 
-th, td {
+td {
     padding: 10px;
-    text-align: left;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 
-.action-btn {
-    background-color: #f0ad4e;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
+tr:hover {
+    background-color: #f1f1f1;
 }
 
-.delete-btn {
-    background-color: #d9534f;
+.total {
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: right;
+    color: #008b8b;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-10px);}
+    to {opacity: 1; transform: translateY(0);}
 }
