@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Contatos</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link para o arquivo CSS -->
+</head>
+<body>
 
+    <h1>Agenda de Contatos</h1>
+
+    <!-- Filtro de Contatos -->
+    <input type="text" id="filtro" placeholder="Filtrar por nome" onkeyup="filtrarContatos()">
+    <p>Total de contatos: <span id="total-contatos">0</span></p>
+
+    <!-- Cadastro de Contatos -->
+    <input type="text" id="nome" placeholder="Nome" required>
+    <input type="email" id="email" placeholder="E-mail" required>
+    <input type="tel" id="telefone" placeholder="Telefone" required>
+    <button onclick="cadastrarContato()">Cadastrar</button>
+
+    <!-- Tabela de Contatos -->
+    <table id="tabela-contatos">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="contatos-lista">
+            <!-- Os contatos serão listados aqui -->
+        </tbody>
+    </table>
+
+    <script src="script.js"></script> <!-- Link para o arquivo JS -->
+</body>
+</html>
