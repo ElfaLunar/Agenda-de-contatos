@@ -3,60 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Agenda de Contatos</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-    <div class="logo">
-        <h1>📘 Agenda Digital</h1>
-        <p>Organize seus contatos de forma simples e eficiente</p>
+<div class="container">
+
+    <h1>📘 Agenda de Contatos</h1>
+
+    <!-- Formulário -->
+    <div class="formulario">
+        <input type="text" id="nome" placeholder="Nome completo">
+        <input type="email" id="email" placeholder="E-mail">
+        <input type="text" id="telefone" placeholder="Telefone">
+        <button onclick="salvarContato()">Salvar</button>
     </div>
-</header>
 
-<main class="container">
+    <!-- Filtro -->
+    <div class="filtro">
+        <input type="text" id="filtro" placeholder="🔎 Filtrar por nome..." onkeyup="filtrarContatos()">
+        <span class="contador">
+            Total: <strong id="totalContatos">0</strong>
+        </span>
+    </div>
 
-    <!-- Card de Cadastro -->
-    <section class="card">
-        <h2>➕ Novo Contato</h2>
-        <div class="form-grid">
-            <input type="text" id="nome" placeholder="Nome completo">
-            <input type="email" id="email" placeholder="E-mail">
-            <input type="text" id="telefone" placeholder="Telefone">
-            <button onclick="salvarContato()">Salvar Contato</button>
-        </div>
-    </section>
+    <!-- Tabela -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaContatos"></tbody>
+    </table>
 
-    <!-- Card de Filtro e Total -->
-    <section class="card">
-        <div class="top-bar">
-            <input type="text" id="filtro" placeholder="🔎 Buscar contato..." onkeyup="filtrarContatos()">
-            <div class="contador">
-                Total: <span id="totalContatos">0</span>
-            </div>
-        </div>
+</div>
 
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th>Telefone</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="tabelaContatos"></tbody>
-            </table>
-        </div>
-    </section>
-
-</main>
-
-<footer>
-    <p>© 2026 Agenda Digital | Desenvolvido em JavaScript</p>
-</footer>
-
-<script src="js/script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
